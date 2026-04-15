@@ -1,0 +1,21 @@
+{
+  "name": "時辰安穩 / Shichen Calm",
+  "short_name": "時辰安穩",
+  "description": "Time-segment auto-switching calm music and meditation PWA for drivers and passengers. Bilingual, iPad-ready, one-time purchase NT$99 positioning.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#07111f",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+[AI Music Generation Prompt]
+Generate a 3-minute original meditation soundscape for a calm in-car environment. Do not imitate any known artist, brand, or existing song.
+Requirements:
+- Instrumental only
+- Slow, steady, non-dramatic
+- Loop-friendly
+- Suitable for both driver and passenger listening
+- Base tone: {{BASE_HZ}} Hz
+- Suggested pulse: {{BPM}} BPM
+- Mood keywords: {{MOOD}}
+- Avoid heavy drums, avoid piercing highs, avoid any melody that feels derivative
+Output: high-quality original audio

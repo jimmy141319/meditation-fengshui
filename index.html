@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="時辰安穩" />
+  <meta name="description" content="時辰安穩 / Shichen Calm：依照時辰自動切換的車內平穩音樂與冥想 App，支援中文與英文，標示基準音頻，適合 iPad / iPhone 使用。" />
+  <title>時辰安穩 / Shichen Calm</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="icon" type="image/png" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow" id="eyebrowLabel">iPad / iPhone 車內平穩模式</p>
+        <h1 id="appTitle">時辰安穩</h1>
+        <p class="subhead" id="appSubtitle">一進入就依時辰自動切換。含冥想模式、中英雙語、一次買斷 NT$99。</p>
+      </div>
+      <div class="top-actions">
+        <button id="languageToggle" class="ghost-btn" type="button">EN</button>
+        <button id="installHintBtn" class="ghost-btn" type="button">加入主畫面</button>
+      </div>
+    </header>
+
+    <main class="main-grid">
+      <section class="hero-card">
+        <div class="time-block">
+          <div class="time-row">
+            <span class="tiny-label" id="nowLabel">現在時間</span>
+            <strong id="clock">--:--</strong>
+          </div>
+          <div class="mode-chip-row">
+            <span class="chip" id="shichenChip">--</span>
+            <span class="chip accent" id="organChip">--</span>
+            <span class="chip outline" id="priceChip">NT$99 Once</span>
+          </div>
+        </div>
+
+        <div class="hero-main">
+          <div class="hero-copy">
+            <p class="section-label" id="autoModeLabel">自動模式</p>
+            <h2 id="modeTitle">--</h2>
+            <p id="modeSubtitle">--</p>
+          </div>
+          <div class="mood-card">
+            <div class="metric">
+              <span class="metric-label" id="emotionLabel">情緒目標</span>
+              <strong id="emotionText">--</strong>
+            </div>
+            <div class="metric">
+              <span class="metric-label" id="soundLabel">音樂氛圍</span>
+              <strong id="soundText">--</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="frequency-grid">
+          <div class="freq-card">
+            <span class="metric-label" id="freqLabel">基準音頻</span>
+            <strong id="frequencyValue">-- Hz</strong>
+            <small id="freqNote">作為原創冥想聲景的基礎音色標示</small>
+          </div>
+          <div class="freq-card">
+            <span class="metric-label" id="pulseLabel">節奏</span>
+            <strong id="pulseValue">-- BPM</strong>
+            <small id="pulseNote">建議播放節奏範圍</small>
+          </div>
+          <div class="freq-card">
+            <span class="metric-label" id="meditationLabel">冥想</span>
+            <strong id="meditationValue">90 sec Reset</strong>
+            <small id="meditationNote">進入短版呼吸與安定引導</small>
+          </div>
+        </div>
+
+        <div class="cta-row">
+          <button id="playBtn" class="primary-btn" type="button">開始播放</button>
+          <button id="meditationBtn" class="secondary-btn" type="button">開始冥想</button>
+          <button id="resetBtn" class="ghost-strong-btn" type="button">90 秒拉回</button>
+        </div>
+
+        <div class="status-box" id="statusBox">
+          聲音尚未開始。點一下「開始播放」即可啟動原創聲景。
+        </div>
+      </section>
+
+      <aside class="panel-stack">
+        <section class="panel">
+          <div class="panel-head">
+            <h3 id="adviceTitle">現在最適合</h3>
+            <span class="panel-badge" id="modeBadge">AUTO</span>
+          </div>
+          <ul id="adviceList" class="bullet-list"></ul>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h3 id="meditationPanelTitle">冥想引導</h3>
+            <span class="panel-badge">Meditation</span>
+          </div>
+          <div class="meditation-box">
+            <p id="voiceLine">--</p>
+            <div class="breath-ring-wrap">
+              <div id="breathRing" class="breath-ring">
+                <span id="breathText">準備</span>
+              </div>
+            </div>
+            <p class="helper" id="helperLine">點擊開始冥想後，依圈圈節奏呼吸。</p>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h3 id="settingsTitle">設定</h3>
+            <span class="panel-badge">PWA</span>
+          </div>
+
+          <label class="setting-row">
+            <span id="autoPlayLabel">進入後自動準備播放</span>
+            <input id="autoPrepareToggle" type="checkbox" checked />
+          </label>
+
+          <label class="setting-row">
+            <span id="meditationDefaultLabel">預設顯示冥想區</span>
+            <input id="meditationDefaultToggle" type="checkbox" checked />
+          </label>
+
+          <label class="setting-column">
+            <span id="manualModeLabel">手動覆蓋模式</span>
+            <select id="manualModeSelect"></select>
+          </label>
+
+          <label class="setting-column">
+            <span id="licenseLabel">授權模式</span>
+            <input id="licenseField" type="text" value="One-time purchase / NT$99" readonly />
+          </label>
+        </section>
+      </aside>
+    </main>
+
+    <footer class="footer-note">
+      <p id="footerText">此 App 以時辰與氛圍為靈感，提供原創聲景與冥想流程；基準音頻為創作標示，不作醫療診斷或療效保證。</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
