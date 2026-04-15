@@ -1,19 +1,15 @@
-【GitHub Pages 設定】
-1. 把 ZIP 解開後，把 site-root 資料夾內的全部檔案上傳到 GitHub repo 根目錄。
-2. 到 GitHub repo -> Settings -> Pages
-3. Build and deployment 選：Deploy from a branch
-4. Branch 選：main / /(root)
-5. Save
-6. 等待 1–3 分鐘後，網站會出現在：
-   https://你的帳號.github.io/你的repo名稱/
+GitHub Pages 設定
+1. 把這個 ZIP 解壓後，裡面的全部檔案直接上傳到 repo 根目錄。
+2. GitHub repo -> Settings -> Pages
+3. Source: Deploy from a branch
+4. Branch: main
+5. Folder: /(root)
+6. Save
 
-【重要】
-- App 會一進入就自動依照時辰切換模式
-- 但音訊播放仍需使用者按一下「開始播放」
-- 這是 iPad / iPhone Safari / PWA 的正常限制
+上線網址格式：
+https://你的帳號.github.io/你的repo名稱/
 
-【iPad 使用】
-1. 用 Safari 打開網站
-2. 點分享
-3. 選「加入主畫面」
-4. 之後可像 App 一樣開啟
+這版已修正：
+- icon 路徑改為根目錄
+- AudioContext resume 問題
+- iPhone / iPad Safari 播放邏輯
