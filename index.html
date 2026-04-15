@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-TW" data-element="water">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="時辰靜心" />
+  <meta name="theme-color" content="#08101a" id="theme-meta" />
+  <meta name="description" content="時辰靜心 Shichen Calm — 以五行時辰為靈感的療癒冥想 App，適合行車時放鬆心神。" />
+
+  <title>時辰靜心 · Shichen Calm</title>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="./manifest.webmanifest" />
+
+  <!-- Icons (SVG inline data URI) -->
+  <link rel="apple-touch-icon" sizes="180x180" href="./icons/icon-180.png" />
+  <link rel="icon" type="image/svg+xml" href="./icons/icon.svg" />
+
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+
+<!-- Animated background layer -->
+<div class="bg-canvas" id="bgCanvas" aria-hidden="true"></div>
+
+<!-- ═══════════════════════════════════════════
+     MAIN APP
+     ═══════════════════════════════════════════ -->
+<main id="app" role="main">
+
+  <!-- ── Header ── -->
+  <header class="app-header">
+    <div class="app-brand">
+      <h1 class="app-title">
+        <span data-zh="時辰靜心">時辰靜心</span>
+        <span data-en="Shichen Calm" style="display:none">Shichen Calm</span>
+      </h1>
+      <p class="app-subtitle">
+        <span data-zh="五行·時辰·靜心">五行 · 時辰 · 靜心</span>
+        <span data-en="Wu Xing · Shichen · Calm" style="display:none">Wu Xing · Shichen · Calm</span>
+      </p>
+    </div>
+    <div class="header-right">
+      <div class="live-clock" id="liveClock" aria-live="polite" aria-label="Current time">00:00</div>
+      <div class="lang-toggle" role="group" aria-label="Language selector">
+        <button class="lang-btn active" id="btnZh" aria-pressed="true" onclick="setLang('zh')">中</button>
+        <button class="lang-btn" id="btnEn" aria-pressed="false" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Shichen Hero Card ── -->
+  <section class="card shichen-card" aria-label="Current Shichen period">
+    <span class="shichen-glyph" id="shichenGlyph" aria-hidden="true">子</span>
+    <p class="shichen-pinyin" id="shichenPinyin">Zi Shí</p>
+    <p class="shichen-name-en" id="shichenNameLine">
+      <span data-zh id="shichenNameZh">子時 — 鼠 · 深夜</span>
+      <span data-en id="shichenNameEn" style="display:none">Zi Hour — Rat · Midnight</span>
+    </p>
+    <div class="shichen-time-range" id="shichenTimeRange">23:00 – 01:00</div>
+
+    <div class="shichen-divider"></div>
+
+    <div class="element-row">
+      <div class="element-badge">
+        <span class="element-icon" id="elementIcon" aria-hidden="true">💧</span>
+        <span class="element-label" id="elementLabel">
+          <span data-zh>水 · Water</span>
+        </span>
+      </div>
+      <div class="animal-badge">
+        <span id="animalEmoji" aria-hidden="true">🐭</span>
+        <span id="animalLabel">
+          <span data-zh id="animalLabelZh">鼠</span>
+          <span data-en id="animalLabelEn" style="display:none">Rat</span>
+        </span>
+      </div>
+    </div>
+
+    <p class="shichen-desc" id="shichenDesc">
+      <span data-zh id="descZh">子時一陽初生，天地靜謐，宜調息養神，順應水德之柔。</span>
+      <span data-en id="descEn" style="display:none">The first Yang energy stirs at midnight. Rest deeply, allow the Water element to restore and replenish your spirit.</span>
+    </p>
+
+    <!-- Shichen progress bar -->
+    <div class="shichen-divider"></div>
+    <div style="width:100%">
+      <div class="shichen-progress-bar" aria-hidden="true">
+        <div class="shichen-progress-fill" id="shichenFill" style="width:0%"></div>
+      </div>
+      <div class="progress-labels">
+        <span id="progressStart">23:00</span>
+        <span id="progressPct">0%</span>
+        <span id="progressEnd">01:00</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Main 2-column grid ── -->
+  <div class="main-grid">
+
+    <!-- ── Audio Panel ── -->
+    <div class="card audio-panel">
+      <p class="panel-title">
+        <span data-zh>環境音景</span>
+        <span data-en style="display:none">Ambient Soundscape</span>
+      </p>
+
+      <div class="audio-controls">
+        <button class="btn-play" id="btnPlay" aria-label="Play ambient sound" onclick="toggleAudio()">
+          <span id="playIcon" aria-hidden="true">▶</span>
+        </button>
+        <div class="volume-group">
+          <label class="volume-label" for="volumeSlider">
+            <span data-zh>音量</span>
+            <span data-en style="display:none">Volume</span>
+          </label>
+          <input type="range" id="volumeSlider" min="0" max="100" value="70"
+                 aria-label="Volume"
+                 oninput="setVolume(this.value)" />
+        </div>
+      </div>
+
+      <div class="tone-stats">
+        <div class="stat-box">
+          <div class="stat-value" id="statHz">174</div>
+          <div class="stat-label">
+            <span data-zh>基礎音頻</span>
+            <span data-en style="display:none">Base Tone</span>
+            <br/>Hz
+          </div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="statBpm">58</div>
+          <div class="stat-label">
+            <span data-zh>脈衝節拍</span>
+            <span data-en style="display:none">Pulse</span>
+            <br/>BPM
+          </div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="statElement" style="font-size:1.2rem">水</div>
+          <div class="stat-label">
+            <span data-zh>五行</span>
+            <span data-en style="display:none">Element</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Actions Panel ── -->
+    <div class="card actions-panel">
+      <p class="panel-title">
+        <span data-zh>練習</span>
+        <span data-en style="display:none">Practice</span>
+      </p>
+
+      <button class="action-btn" onclick="openBreathing()" aria-label="Open 90-second breathing reset">
+        <span class="action-icon" aria-hidden="true">🌬</span>
+        <span class="action-text">
+          <strong>
+            <span data-zh>90秒調息</span>
+            <span data-en style="display:none">90-sec Breathing Reset</span>
+          </strong>
+          <span class="action-sub">
+            <span data-zh>箱式呼吸法 · 4×4×4×4</span>
+            <span data-en style="display:none">Box Breathing · 4×4×4×4</span>
+          </span>
+        </span>
+      </button>
+
+      <button class="action-btn" onclick="openMeditation()" aria-label="Open meditation mode">
+        <span class="action-icon" aria-hidden="true">🧘</span>
+        <span class="action-text">
+          <strong>
+            <span data-zh>冥想模式</span>
+            <span data-en style="display:none">Meditation Mode</span>
+          </strong>
+          <span class="action-sub">
+            <span data-zh>選擇 5 · 10 · 20 分鐘</span>
+            <span data-en style="display:none">5 · 10 · 20 min sessions</span>
+          </span>
+        </span>
+      </button>
+
+      <button class="action-btn" onclick="showAllShichen()" aria-label="View all Shichen periods">
+        <span class="action-icon" aria-hidden="true">🕐</span>
+        <span class="action-text">
+          <strong>
+            <span data-zh>十二時辰</span>
+            <span data-en style="display:none">All 12 Shichen</span>
+          </strong>
+          <span class="action-sub">
+            <span data-zh>查看一日能量週期</span>
+            <span data-en style="display:none">Daily energy cycle overview</span>
+          </span>
+        </span>
+      </button>
+    </div>
+
+  </div><!-- /main-grid -->
+
+  <!-- ── Purchase Card ── -->
+  <section class="card purchase-card" id="purchaseCard">
+    <div class="purchase-price">NT$99</div>
+    <div class="purchase-currency">
+      <span data-zh>一次性購買 · 永久使用</span>
+      <span data-en style="display:none">One-time purchase · Lifetime access</span>
+    </div>
+    <p class="purchase-desc">
+      <span data-zh>時辰靜心是一款為行車族打造的專業冥想 App。<br/>沒有訂閱費，沒有廣告，購買後永久使用。</span>
+      <span data-en style="display:none">Shichen Calm is a premium meditation app crafted for drivers and passengers.<br/>No subscriptions, no ads — yours forever.</span>
+    </p>
+    <div class="purchase-features">
+      <span class="feature-chip">
+        <span data-zh>五行音景</span><span data-en style="display:none">5-Element Soundscapes</span>
+      </span>
+      <span class="feature-chip">
+        <span data-zh>十二時辰切換</span><span data-en style="display:none">12 Shichen Auto-Switch</span>
+      </span>
+      <span class="feature-chip">
+        <span data-zh>離線可用</span><span data-en style="display:none">Offline Ready</span>
+      </span>
+      <span class="feature-chip">
+        <span data-zh>無廣告</span><span data-en style="display:none">Ad-free</span>
+      </span>
+      <span class="feature-chip">
+        <span data-zh>雙語介面</span><span data-en style="display:none">Bilingual UI</span>
+      </span>
+    </div>
+    <button class="btn-purchase" onclick="handlePurchase()">
+      <span aria-hidden="true">✦</span>
+      <span data-zh>立即購買</span>
+      <span data-en style="display:none">Purchase Now</span>
+    </button>
+    <p class="purchase-note" id="purchaseNote">
+      <span data-zh>* 點擊後將導向付款頁面。本應用不含醫療建議。</span>
+      <span data-en style="display:none">* Redirects to payment page. This app does not provide medical advice.</span>
+    </p>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer class="app-footer">
+    <p>
+      <span data-zh>時辰靜心 · 以五行時辰為靈感 · 為平靜而生</span>
+      <span data-en style="display:none">Shichen Calm · Inspired by Wu Xing &amp; Shichen · Made for stillness</span>
+    </p>
+    <p style="margin-top:4px">
+      <span data-zh>本應用不提供任何醫療建議或診斷。</span>
+      <span data-en style="display:none">This app does not provide medical advice or diagnosis.</span>
+    </p>
+  </footer>
+
+</main><!-- /app -->
+
+
+<!-- ═══════════════════════════════════════════
+     BREATHING RESET MODAL
+     ═══════════════════════════════════════════ -->
+<div class="modal-overlay" id="breathingModal" role="dialog" aria-modal="true"
+     aria-labelledby="breathingTitle" tabindex="-1">
+  <div class="modal-box breathing-modal">
+    <button class="modal-close" onclick="closeBreathing()" aria-label="Close">✕</button>
+
+    <h2 class="breathing-title" id="breathingTitle">
+      <span data-zh>90秒調息</span>
+      <span data-en style="display:none">90-sec Breathing Reset</span>
+    </h2>
+    <p class="breathing-subtitle">
+      <span data-zh>箱式呼吸法 — 吸4·止4·呼4·息4</span>
+      <span data-en style="display:none">Box Breathing — Inhale 4 · Hold 4 · Exhale 4 · Rest 4</span>
+    </p>
+
+    <!-- SVG ring progress + circle -->
+    <div class="breathing-circle-wrap">
+      <svg class="breathing-svg" viewBox="0 0 200 200" aria-hidden="true">
+        <circle class="breathing-track" cx="100" cy="100" r="90" />
+        <circle class="breathing-progress" id="breathRing" cx="100" cy="100" r="90" />
+      </svg>
+      <div class="breathing-inner">
+        <div class="breathing-circle" id="breathCircle">
+          <div class="breath-count" id="breathCount">–</div>
+          <div class="breath-phase-name" id="breathPhaseName">
+            <span data-zh>準備</span><span data-en style="display:none">Ready</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="breathing-timer">
+      <span data-zh>剩餘時間：</span>
+      <span data-en style="display:none">Time remaining: </span>
+      <span id="breathTimerDisplay">1:30</span>
+    </div>
+
+    <div class="breath-pattern-info">
+      <span class="phase-chip">
+        <span data-zh>吸氣 4s</span><span data-en style="display:none">Inhale 4s</span>
+      </span>
+      <span class="phase-chip">
+        <span data-zh>止息 4s</span><span data-en style="display:none">Hold 4s</span>
+      </span>
+      <span class="phase-chip">
+        <span data-zh>呼氣 4s</span><span data-en style="display:none">Exhale 4s</span>
+      </span>
+      <span class="phase-chip">
+        <span data-zh>靜息 4s</span><span data-en style="display:none">Rest 4s</span>
+      </span>
+    </div>
+
+    <button class="btn-start-breathing" id="btnStartBreathing" onclick="startBreathing()">
+      <span data-zh>開始調息</span>
+      <span data-en style="display:none">Begin</span>
+    </button>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     MEDITATION MODAL
+     ═══════════════════════════════════════════ -->
+<div class="modal-overlay" id="meditationModal" role="dialog" aria-modal="true"
+     aria-labelledby="meditationTitle" tabindex="-1">
+  <div class="modal-box meditation-modal">
+    <button class="modal-close" onclick="closeMeditation()" aria-label="Close">✕</button>
+
+    <div class="meditation-glyph" id="meditGlyph" aria-hidden="true">🧘</div>
+    <h2 class="meditation-title" id="meditationTitle">
+      <span data-zh>冥想模式</span>
+      <span data-en style="display:none">Meditation Mode</span>
+    </h2>
+    <p class="meditation-desc">
+      <span data-zh>配合當前時辰的音景，讓心神沉靜下來。選擇冥想時長，然後專注在呼吸與此刻。</span>
+      <span data-en style="display:none">Settle into stillness with the soundscape of the current Shichen. Choose your session length, then focus on breath and presence.</span>
+    </p>
+
+    <!-- Duration selector -->
+    <div class="meditation-duration" id="meditDurationPicker">
+      <button class="duration-btn active" data-mins="5" onclick="selectDuration(5, this)">5 min</button>
+      <button class="duration-btn" data-mins="10" onclick="selectDuration(10, this)">10 min</button>
+      <button class="duration-btn" data-mins="20" onclick="selectDuration(20, this)">20 min</button>
+    </div>
+
+    <!-- Affirmation (element-specific) -->
+    <blockquote class="meditation-affirmation" id="meditAffirmation">
+      <span data-zh>此刻，如水般靜定，安住於當下。</span>
+      <span data-en style="display:none">In this moment, be still as deep water. Rest in the now.</span>
+    </blockquote>
+
+    <!-- Countdown (hidden until started) -->
+    <div class="meditation-countdown" id="meditCountdown">00:00</div>
+    <div class="meditation-status" id="meditStatus">
+      <span data-zh>音景已就緒</span>
+      <span data-en style="display:none">Soundscape ready</span>
+    </div>
+
+    <button class="btn-start-meditation" id="btnStartMeditation" onclick="startMeditation()">
+      <span data-zh>開始冥想</span>
+      <span data-en style="display:none">Begin Meditation</span>
+    </button>
+    <button class="btn-stop-meditation" id="btnStopMeditation" onclick="stopMeditation()">
+      <span data-zh>結束</span>
+      <span data-en style="display:none">End Session</span>
+    </button>
+
+    <p class="disclaimer">
+      <span data-zh>本應用程式不提供任何醫療建議、診斷或治療。所有內容僅供放鬆參考之用。</span>
+      <span data-en style="display:none">This app provides no medical advice, diagnosis, or treatment. All content is for relaxation purposes only.</span>
+    </p>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     ALL SHICHEN MODAL
+     ═══════════════════════════════════════════ -->
+<div class="modal-overlay" id="allShichenModal" role="dialog" aria-modal="true"
+     aria-labelledby="allShichenTitle" tabindex="-1">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeAllShichen()" aria-label="Close">✕</button>
+    <h2 class="breathing-title" id="allShichenTitle" style="margin-bottom:20px">
+      <span data-zh>十二時辰</span>
+      <span data-en style="display:none">The 12 Shichen</span>
+    </h2>
+    <div id="allShichenList" style="display:flex;flex-direction:column;gap:10px"></div>
+  </div>
+</div>
+
+
+<script src="./app.js"></script>
+</body>
+</html>

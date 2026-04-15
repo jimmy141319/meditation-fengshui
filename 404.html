@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — 時辰靜心</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "PingFang TC", "Noto Sans TC", "Inter", sans-serif;
+      background: #08101a;
+      color: #e8f4fd;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+    }
+    .glyph {
+      font-size: 6rem;
+      line-height: 1;
+      margin-bottom: 16px;
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-10px); }
+    }
+    h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #4fc3f7;
+      margin-bottom: 8px;
+    }
+    p {
+      font-size: 0.9rem;
+      color: rgba(144, 202, 249, 0.65);
+      margin-bottom: 32px;
+      line-height: 1.7;
+    }
+    a {
+      display: inline-block;
+      padding: 12px 32px;
+      background: rgba(79, 195, 247, 0.18);
+      border: 1px solid rgba(79, 195, 247, 0.35);
+      border-radius: 40px;
+      color: #4fc3f7;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.25s;
+    }
+    a:hover {
+      background: #4fc3f7;
+      color: #08101a;
+    }
+  </style>
+  <!-- GitHub Pages SPA redirect script -->
+  <script>
+    // Redirect to the main page, preserving the path for SPA routing
+    sessionStorage.setItem('redirect', location.href);
+    location.replace('./');
+  </script>
+</head>
+<body>
+  <div class="glyph">迷</div>
+  <h1>404 — 頁面不存在 / Page Not Found</h1>
+  <p>
+    此路不通，請返回靜心。<br/>
+    This path doesn't exist. Return to calm.
+  </p>
+  <a href="./">← 回到時辰靜心 / Return to Shichen Calm</a>
+</body>
+</html>

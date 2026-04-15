@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="256" fill="#08101a"/>
+  <!-- Outer decorative ring -->
+  <circle cx="256" cy="256" r="228" fill="none" stroke="#4fc3f7" stroke-width="3" stroke-dasharray="18 10" opacity="0.5"/>
+  <!-- Inner ring -->
+  <circle cx="256" cy="256" r="180" fill="none" stroke="#4fc3f7" stroke-width="1.5" opacity="0.3"/>
+  <!-- Bagua-inspired octagonal shape -->
+  <polygon points="256,96 331,131 366,206 331,281 256,316 181,281 146,206 181,131"
+           fill="none" stroke="#4fc3f7" stroke-width="2" opacity="0.4"/>
+  <!-- Water element ripple circles -->
+  <circle cx="256" cy="256" r="60" fill="none" stroke="#4fc3f7" stroke-width="2" opacity="0.3"/>
+  <circle cx="256" cy="256" r="90" fill="none" stroke="#4fc3f7" stroke-width="1.5" opacity="0.2"/>
+  <!-- Main Chinese character 靜 (stillness) -->
+  <text x="256" y="296" text-anchor="middle"
+        font-family="'PingFang TC','Noto Serif TC','STSong',serif"
+        font-size="140" font-weight="700"
+        fill="#4fc3f7" opacity="0.95">靜</text>
+  <!-- Top small glyph 子 -->
+  <text x="256" y="128" text-anchor="middle"
+        font-family="'PingFang TC','Noto Serif TC',serif"
+        font-size="36" fill="#4fc3f7" opacity="0.6">子</text>
+  <!-- Bottom label -->
+  <text x="256" y="420" text-anchor="middle"
+        font-family="'PingFang TC','Noto Sans TC','Inter',sans-serif"
+        font-size="28" letter-spacing="4"
+        fill="#4fc3f7" opacity="0.55">時辰靜心</text>
+</svg>
