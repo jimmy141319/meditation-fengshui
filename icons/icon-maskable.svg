@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Safe zone background (maskable icons need 10% padding) -->
+  <rect width="512" height="512" rx="0" fill="#030712"/>
+  <!-- Decorative background rings inside safe zone -->
+  <circle cx="256" cy="256" r="186" fill="rgba(64,128,176,0.08)"/>
+  <!-- Core circle -->
+  <circle cx="256" cy="256" r="148" fill="rgba(64,128,176,0.2)" stroke="#4080b0" stroke-width="1.5" opacity="0.8"/>
+  <!-- Mid ring -->
+  <circle cx="256" cy="256" r="186" fill="none" stroke="#4080b0" stroke-width="1.5" opacity="0.3"/>
+  <!-- Outer ring -->
+  <circle cx="256" cy="256" r="220" fill="none" stroke="#4080b0" stroke-width="1" opacity="0.15"/>
+  <!-- Chinese character 靜 -->
+  <text
+    x="256"
+    y="310"
+    font-family="PingFang SC, Noto Serif CJK SC, serif"
+    font-size="138"
+    font-weight="100"
+    fill="#d0e4f5"
+    text-anchor="middle"
+    opacity="0.92"
+  >靜</text>
+</svg>

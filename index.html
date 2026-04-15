@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="時辰靜心" />
+  <meta name="theme-color" id="themeMetaColor" content="#030712" />
+  <meta name="description" content="時辰靜心 · Shichen Calm — 根據傳統中醫十二時辰養生節律的雙語冥想應用，專為駕駛與乘客設計。" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/icon-180.svg" />
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+  <title>時辰靜心 · Shichen Calm</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="app">
+
+  <!-- Dynamic background canvas -->
+  <canvas id="bgCanvas" class="bg-canvas" aria-hidden="true"></canvas>
+
+  <!-- ══════════════════ HEADER ══════════════════ -->
+  <header class="app-header" role="banner">
+    <div class="header-left">
+      <span class="app-logo" aria-label="時辰靜心 Shichen Calm">
+        <span class="zh">時辰靜心</span>
+        <span class="en">Shichen Calm</span>
+      </span>
+    </div>
+    <div class="header-center">
+      <time class="live-clock" id="liveClock" aria-live="polite" aria-label="Current time">00:00</time>
+    </div>
+    <div class="header-right">
+      <button
+        class="lang-toggle"
+        id="langToggle"
+        aria-label="Switch language 切換語言"
+        title="切換語言 / Switch Language"
+      >
+        <span class="lt-zh active">中</span>
+        <span class="lt-div">·</span>
+        <span class="lt-en">EN</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ══════════════════ MAIN ══════════════════ -->
+  <main class="main-screen" id="mainScreen" role="main">
+
+    <!-- Shichen identifier row -->
+    <div class="shichen-row">
+      <div class="shichen-info">
+        <span class="shichen-zh" id="shichenZh">亥時</span>
+        <span class="shichen-py" id="shichenPy">Hài Shí</span>
+      </div>
+      <div class="element-badge" id="elementBadge">
+        <span class="element-zh" id="elementZh">火</span>
+      </div>
+    </div>
+
+    <!-- Organ label -->
+    <div class="organ-row">
+      <span class="organ-zh" id="organZh">三焦</span>
+      <span class="organ-dot">·</span>
+      <span class="organ-en" id="organEn">Triple Burner</span>
+    </div>
+
+    <!-- Breathing orb -->
+    <div class="orb-container" id="orbContainer" aria-hidden="true">
+      <div class="orb-glow"></div>
+      <div class="orb-ring r1"></div>
+      <div class="orb-ring r2"></div>
+      <div class="orb-ring r3"></div>
+      <div class="orb-core">
+        <span class="orb-char" id="orbChar">息</span>
+      </div>
+    </div>
+
+    <!-- Mode title -->
+    <div class="mode-title-block">
+      <h1 class="mode-title-zh zh" id="modeTitleZh">夜晚安定</h1>
+      <p class="mode-title-en en" id="modeTitleEn">Late-Night Settle</p>
+    </div>
+
+    <!-- Emotional goal -->
+    <div class="emotional-block">
+      <p class="emotional-zh zh" id="emotionalZh">放鬆神經，引入睡意，化解殘餘思緒</p>
+      <p class="emotional-en en" id="emotionalEn">Ease the nerves, invite gentle drowsiness, dissolve lingering thoughts</p>
+    </div>
+
+    <!-- Sound mood + metrics row -->
+    <div class="info-grid">
+
+      <div class="info-card sound-card">
+        <div class="info-icon" aria-hidden="true">◎</div>
+        <div class="info-content">
+          <div class="info-label">
+            <span class="zh">音境</span>
+            <span class="en">Sound Mood</span>
+          </div>
+          <div class="info-value">
+            <span class="sound-zh zh" id="soundZh">暮靜流韻</span>
+            <span class="sound-en en" id="soundEn">Dusk Still Resonance</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card hz-card">
+        <div class="metric-number" id="metricHz">741</div>
+        <div class="metric-unit">Hz</div>
+        <div class="metric-desc">
+          <span class="zh">基準頻率</span>
+          <span class="en">Base Tone</span>
+        </div>
+      </div>
+
+      <div class="info-card bpm-card">
+        <div class="metric-number" id="metricBpm">44</div>
+        <div class="metric-unit">BPM</div>
+        <div class="metric-desc">
+          <span class="zh">節拍</span>
+          <span class="en">Pulse</span>
+        </div>
+      </div>
+
+    </div><!-- /info-grid -->
+
+    <!-- Primary audio CTA -->
+    <div class="cta-row">
+      <button class="btn-audio" id="btnAudio" aria-pressed="false">
+        <span class="btn-audio-icon" id="btnAudioIcon" aria-hidden="true">▶</span>
+        <span class="btn-audio-text">
+          <span class="zh">開始音境</span>
+          <span class="en">Start Audio</span>
+        </span>
+      </button>
+    </div>
+
+    <!-- Secondary buttons -->
+    <div class="btn-row">
+      <button class="btn-secondary" id="btnMeditation">
+        <span class="btn-sec-icon" aria-hidden="true">◯</span>
+        <span class="btn-sec-text">
+          <span class="zh">冥想模式</span>
+          <span class="en">Meditation</span>
+        </span>
+      </button>
+      <button class="btn-secondary" id="btnBreath">
+        <span class="btn-sec-icon" aria-hidden="true">◌</span>
+        <span class="btn-sec-text">
+          <span class="zh">90秒重置</span>
+          <span class="en">90s Reset</span>
+        </span>
+      </button>
+    </div>
+
+  </main><!-- /main-screen -->
+
+  <!-- ══════════════════ FOOTER ══════════════════ -->
+  <footer class="app-footer" role="contentinfo">
+    <span class="footer-brand">時辰靜心 · Shichen Calm</span>
+    <span class="footer-sep">—</span>
+    <span class="footer-tagline">
+      <span class="zh">頂級靜心體驗</span>
+      <span class="en">Premium Calm Experience</span>
+    </span>
+    <span class="footer-price">NT$99</span>
+  </footer>
+
+</div><!-- /#app -->
+
+
+<!-- ══════════════════ MEDITATION OVERLAY ══════════════════ -->
+<div
+  id="meditationOverlay"
+  class="overlay"
+  aria-hidden="true"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="meditationTitle"
+>
+  <div class="overlay-backdrop" id="meditationBackdrop"></div>
+  <div class="overlay-panel">
+    <div class="overlay-top">
+      <h2 class="overlay-title" id="meditationTitle">
+        <span class="zh">冥想模式</span>
+        <span class="en">Meditation Mode</span>
+      </h2>
+      <button class="overlay-close" id="btnMeditationClose" aria-label="Close 關閉">✕</button>
+    </div>
+
+    <!-- Duration selector -->
+    <div class="duration-row" id="durationRow">
+      <button class="dur-btn active" data-mins="5">
+        <span class="dur-num">5</span>
+        <span class="dur-unit">
+          <span class="zh">分鐘</span>
+          <span class="en">min</span>
+        </span>
+      </button>
+      <button class="dur-btn" data-mins="10">
+        <span class="dur-num">10</span>
+        <span class="dur-unit">
+          <span class="zh">分鐘</span>
+          <span class="en">min</span>
+        </span>
+      </button>
+      <button class="dur-btn" data-mins="20">
+        <span class="dur-num">20</span>
+        <span class="dur-unit">
+          <span class="zh">分鐘</span>
+          <span class="en">min</span>
+        </span>
+      </button>
+    </div>
+
+    <!-- Meditation circle -->
+    <div class="med-circle-wrap">
+      <div class="med-circle" id="medCircle">
+        <div class="med-ring" id="medRing"></div>
+        <div class="med-inner">
+          <div class="med-phase" id="medPhase">
+            <span class="zh">靜坐</span>
+            <span class="en">Sit Still</span>
+          </div>
+          <div class="med-timer" id="medTimer">5:00</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-primary-overlay" id="btnMeditationStart">
+      <span class="zh">開始冥想</span>
+      <span class="en">Begin</span>
+    </button>
+  </div>
+</div>
+
+
+<!-- ══════════════════ BREATHING OVERLAY ══════════════════ -->
+<div
+  id="breathingOverlay"
+  class="overlay"
+  aria-hidden="true"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="breathingTitle"
+>
+  <div class="overlay-backdrop" id="breathingBackdrop"></div>
+  <div class="overlay-panel">
+    <div class="overlay-top">
+      <h2 class="overlay-title" id="breathingTitle">
+        <span class="zh">90秒呼吸重置</span>
+        <span class="en">90s Breathing Reset</span>
+      </h2>
+      <button class="overlay-close" id="btnBreathClose" aria-label="Close 關閉">✕</button>
+    </div>
+
+    <div class="breath-instruction">
+      <span class="zh">吸氣 4秒 · 呼氣 6秒 · 共 9 輪</span>
+      <span class="en">Inhale 4s · Exhale 6s · 9 cycles</span>
+    </div>
+
+    <!-- Breathing circle -->
+    <div class="breath-circle-wrap">
+      <div class="breath-circle" id="breathCircle">
+        <svg class="breath-svg" viewBox="0 0 200 200" aria-hidden="true">
+          <circle class="breath-track" cx="100" cy="100" r="80"/>
+          <circle class="breath-fill" id="breathFill" cx="100" cy="100" r="80"/>
+        </svg>
+        <div class="breath-inner">
+          <div class="breath-phase" id="breathPhase">
+            <span class="zh">準備</span>
+            <span class="en">Ready</span>
+          </div>
+          <div class="breath-cycle" id="breathCycle">9</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="breath-progress-wrap">
+      <div class="breath-progress-track">
+        <div class="breath-progress-bar" id="breathProgressBar"></div>
+      </div>
+      <div class="breath-progress-label">
+        <span id="breathSecsLeft">90</span>s
+      </div>
+    </div>
+
+    <button class="btn-primary-overlay" id="btnBreathStart">
+      <span class="zh">開始重置</span>
+      <span class="en">Begin Reset</span>
+    </button>
+  </div>
+</div>
+
+
+<script src="app.js"></script>
+</body>
+</html>

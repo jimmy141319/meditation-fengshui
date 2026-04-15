@@ -1,0 +1,49 @@
+{
+  "name": "時辰靜心 · Shichen Calm",
+  "short_name": "時辰靜心",
+  "description": "根據傳統中醫十二時辰養生節律的雙語冥想應用，專為駕駛與乘客設計。A premium bilingual meditation app inspired by Traditional Chinese Medicine Shichen rhythms.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#030712",
+  "theme_color": "#030712",
+  "lang": "zh-Hant",
+  "categories": ["health", "lifestyle", "wellness"],
+  "icons": [
+    {
+      "src": "icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "90秒呼吸重置",
+      "short_name": "呼吸重置",
+      "description": "Start 90-second breathing reset",
+      "url": "./#breath"
+    },
+    {
+      "name": "冥想模式",
+      "short_name": "冥想",
+      "description": "Open meditation mode",
+      "url": "./#meditate"
+    }
+  ]
+}

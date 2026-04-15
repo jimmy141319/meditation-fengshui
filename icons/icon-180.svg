@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="180" height="180">
+  <rect width="512" height="512" fill="#030712"/>
+  <circle cx="256" cy="256" r="220" fill="none" stroke="#4080b0" stroke-width="1.5" opacity="0.2"/>
+  <circle cx="256" cy="256" r="185" fill="none" stroke="#4080b0" stroke-width="1.5" opacity="0.35"/>
+  <circle cx="256" cy="256" r="148" fill="none" stroke="#4080b0" stroke-width="1.5" opacity="0.55"/>
+  <circle cx="256" cy="256" r="110" fill="rgba(64,128,176,0.22)" stroke="#4080b0" stroke-width="1.5" opacity="0.9"/>
+  <text
+    x="256"
+    y="310"
+    font-family="PingFang SC, Noto Serif CJK SC, serif"
+    font-size="138"
+    font-weight="100"
+    fill="#d0e4f5"
+    text-anchor="middle"
+    opacity="0.92"
+  >靜</text>
+</svg>
