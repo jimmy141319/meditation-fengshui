@@ -724,7 +724,7 @@ function resetBreathingUI() {
   breathElapsed   = 0;
   breathPhaseIdx  = 0;
   breathPhaseTime = 0;
-  updateBreathUI(BREATH_PHASES[0], BREATH_TOTAL);
+  updateBreathUI(BREATH_PHASES[0], BREATH_TOTAL, BREATH_PHASES[0].durS);
   document.getElementById('breathCircle').className = 'breathing-circle';
   document.getElementById('breathRing').style.strokeDashoffset = BREATH_RING_CIRCUMFERENCE;
   document.getElementById('btnStartBreathing').style.display = '';
@@ -759,7 +759,8 @@ function breathTick() {
   }
 
   const currentPhase = BREATH_PHASES[breathPhaseIdx];
-  updateBreathUI(currentPhase, remaining);
+  const phaseCountdown = currentPhase.durS - breathPhaseTime + 1;
+  updateBreathUI(currentPhase, remaining, phaseCountdown);
 
   // Ring progress
   const progress = breathElapsed / BREATH_TOTAL;
@@ -771,14 +772,14 @@ function breathTick() {
   }
 }
 
-function updateBreathUI(phase, remaining) {
+function updateBreathUI(phase, remaining, phaseCountdown) {
   const circle  = document.getElementById('breathCircle');
   const counter = document.getElementById('breathCount');
   const name    = document.getElementById('breathPhaseName');
   const timer   = document.getElementById('breathTimerDisplay');
 
   circle.className = 'breathing-circle' + (phase.circleClass ? ' ' + phase.circleClass : '');
-  counter.textContent = BREATH_PHASES[breathPhaseIdx] ? BREATH_PHASES[breathPhaseIdx].durS - breathPhaseTime + 1 : '–';
+  counter.textContent = phaseCountdown !== undefined ? phaseCountdown : '–';
 
   const zh = name.querySelector('[data-zh]') || name;
   const en = name.querySelector('[data-en]') || null;
