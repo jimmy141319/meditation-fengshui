@@ -1,147 +1,127 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0f172a" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="時辰安穩" />
-  <meta name="description" content="時辰安穩 / Shichen Calm：依照時辰自動切換的車內平穩音樂與冥想 App，改用本地音檔播放，適合 iPad / iPhone。" />
-  <title>時辰安穩 / Shichen Calm</title>
-  <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="apple-touch-icon" href="icon-192.png" />
-  <link rel="icon" type="image/png" href="icon-192.png" />
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Shichen Calm｜MP3 Fix</title>
+<style>
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Microsoft JhengHei",sans-serif;background:#081222;color:#fff}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 40px}
+h1{margin:0 0 8px;font-size:40px}
+.sub{color:#cbd5e1;line-height:1.6;margin-bottom:20px}
+.card{background:#0f1d35;border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:20px;margin-bottom:16px}
+.time{font-size:52px;font-weight:800;margin:8px 0 16px}
+.mode{font-size:30px;font-weight:800;margin:0 0 8px}
+.muted{color:#cbd5e1}
+.buttons{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+button{min-height:56px;border-radius:18px;border:1px solid rgba(255,255,255,.12);background:#162847;color:#fff;font-size:22px;font-weight:800}
+button.primary{background:linear-gradient(135deg,#7dd3fc,#c4b5fd);color:#041220;border:0}
+.status{padding:16px;border-radius:18px;background:#10283a;border:1px solid rgba(134,239,172,.18);line-height:1.6}
+.list{padding-left:20px;line-height:1.8}
+.tag{display:inline-block;padding:8px 12px;border-radius:999px;background:#172b48;margin-right:8px;margin-bottom:8px}
+</style>
 </head>
 <body>
-  <div class="app-shell">
-    <header class="topbar">
-      <div>
-        <p class="eyebrow" id="eyebrowLabel">iPad / iPhone 車內平穩模式</p>
-        <h1 id="appTitle">時辰安穩</h1>
-        <p class="subhead" id="appSubtitle">完全覆蓋版：改用本地音檔播放，先證明播放核心功能成立。</p>
-      </div>
-      <div class="top-actions">
-        <button id="languageToggle" class="ghost-btn" type="button">EN</button>
-        <button id="installHintBtn" class="ghost-btn" type="button">加入主畫面</button>
-      </div>
-    </header>
-
-    <main class="main-grid">
-      <section class="hero-card">
-        <div class="time-block">
-          <div class="time-row">
-            <span class="tiny-label" id="nowLabel">現在時間</span>
-            <strong id="clock">--:--</strong>
-          </div>
-          <div class="mode-chip-row">
-            <span class="chip" id="shichenChip">--</span>
-            <span class="chip accent" id="organChip">--</span>
-            <span class="chip outline" id="priceChip">NT$99 一次買斷</span>
-          </div>
-        </div>
-
-        <div class="hero-main">
-          <div class="hero-copy">
-            <p class="section-label" id="autoModeLabel">自動模式</p>
-            <h2 id="modeTitle">--</h2>
-            <p id="modeSubtitle">--</p>
-          </div>
-          <div class="mood-card">
-            <div class="metric">
-              <span class="metric-label" id="emotionLabel">情緒目標</span>
-              <strong id="emotionText">--</strong>
-            </div>
-            <div class="metric">
-              <span class="metric-label" id="soundLabel">音樂氛圍</span>
-              <strong id="soundText">--</strong>
-            </div>
-          </div>
-        </div>
-
-        <div class="frequency-grid">
-          <div class="freq-card">
-            <span class="metric-label" id="freqLabel">基準音頻</span>
-            <strong id="frequencyValue">-- Hz</strong>
-            <small id="freqNote">僅作聲景標示，不作醫療宣稱</small>
-          </div>
-          <div class="freq-card">
-            <span class="metric-label" id="pulseLabel">節奏</span>
-            <strong id="pulseValue">-- BPM</strong>
-            <small id="pulseNote">對應建議脈動範圍</small>
-          </div>
-          <div class="freq-card">
-            <span class="metric-label" id="audioLabel">播放來源</span>
-            <strong id="audioSourceValue">local audio</strong>
-            <small id="audioNote">改用 HTML audio，優先確保 iPhone 播放</small>
-          </div>
-        </div>
-
-        <div class="cta-row">
-          <button id="playBtn" class="primary-btn" type="button">開始播放</button>
-          <button id="pauseBtn" class="secondary-btn" type="button">暫停播放</button>
-          <button id="meditationBtn" class="secondary-btn" type="button">開始冥想</button>
-          <button id="resetBtn" class="ghost-strong-btn" type="button">90 秒拉回</button>
-        </div>
-
-        <div class="status-box" id="statusBox">音訊尚未開始。按「開始播放」測試本地音檔播放。</div>
-        <audio id="player" playsinline preload="auto" loop></audio>
-      </section>
-
-      <aside class="panel-stack">
-        <section class="panel">
-          <div class="panel-head">
-            <h3 id="adviceTitle">現在最適合</h3>
-            <span class="panel-badge" id="modeBadge">AUTO</span>
-          </div>
-          <ul id="adviceList" class="bullet-list"></ul>
-        </section>
-
-        <section class="panel">
-          <div class="panel-head">
-            <h3 id="meditationPanelTitle">冥想引導</h3>
-            <span class="panel-badge">Meditation</span>
-          </div>
-          <div class="meditation-box">
-            <p id="voiceLine">--</p>
-            <div class="breath-ring-wrap">
-              <div id="breathRing" class="breath-ring">
-                <span id="breathText">準備</span>
-              </div>
-            </div>
-            <p class="helper" id="helperLine">點擊開始冥想後，依圈圈節奏呼吸。</p>
-          </div>
-        </section>
-
-        <section class="panel">
-          <div class="panel-head">
-            <h3 id="settingsTitle">設定</h3>
-            <span class="panel-badge">Core First</span>
-          </div>
-
-          <label class="setting-row">
-            <span id="manualModeLabel">手動覆蓋模式</span>
-            <select id="manualModeSelect"></select>
-          </label>
-
-          <label class="setting-row">
-            <span id="volumeLabel">音量</span>
-            <input id="volumeRange" type="range" min="0" max="100" value="70" />
-          </label>
-
-          <label class="setting-column">
-            <span id="licenseLabel">授權模式</span>
-            <input id="licenseField" type="text" value="One-time purchase / NT$99" readonly />
-          </label>
-        </section>
-      </aside>
-    </main>
-
-    <footer class="footer-note">
-      <p id="footerText">完全覆蓋版：先驗證手機上本地音檔可正常播放，再談更高級的聲景系統。</p>
-    </footer>
+<div class="wrap">
+  <h1>Shichen Calm</h1>
+  <div class="sub">MP3 修正版。這次只做一件事：<b>把 WAV 換成 MP3，證明 iPhone / Safari / GitHub Pages 可以播本地音檔。</b></div>
+  <div class="card">
+    <div class="muted">現在時間</div>
+    <div id="timeNow" class="time">--:--</div>
+    <div id="modeNow" class="mode">--</div>
+    <div id="descNow" class="muted">--</div>
+    <div style="margin-top:14px">
+      <span id="fileTag" class="tag">audio/--</span>
+      <span id="freqTag" class="tag">-- Hz</span>
+      <span id="pulseTag" class="tag">-- BPM</span>
+    </div>
+    <div class="buttons">
+      <button id="playBtn" class="primary">開始播放</button>
+      <button id="pauseBtn">暫停播放</button>
+    </div>
   </div>
-  <script src="app.js"></script>
+  <div id="status" class="status">尚未播放。請按「開始播放」。</div>
+  <div class="card">
+    <div class="muted">這次驗證點</div>
+    <ul class="list">
+      <li>GitHub Pages 能載入 mp3</li>
+      <li>iPhone Safari 按一下能播放</li>
+      <li>可暫停</li>
+      <li>時段切換可換檔</li>
+    </ul>
+  </div>
+  <audio id="player" playsinline preload="auto" loop></audio>
+</div>
+<script>
+const MODES = [
+  { start:23, end:7, title:'夜間模式', desc:'夜間 MP3 測試', file:'audio/night.mp3', hz:174, bpm:8 },
+  { start:7, end:11, title:'晨間模式', desc:'早上 MP3 測試', file:'audio/morning.mp3', hz:220, bpm:11 },
+  { start:11, end:15, title:'午間模式', desc:'中午 MP3 測試', file:'audio/noon.mp3', hz:261, bpm:13 },
+  { start:15, end:23, title:'傍晚模式', desc:'傍晚 MP3 測試', file:'audio/evening.mp3', hz:329, bpm:12 }
+];
+const els = {
+  timeNow: document.getElementById('timeNow'),
+  modeNow: document.getElementById('modeNow'),
+  descNow: document.getElementById('descNow'),
+  fileTag: document.getElementById('fileTag'),
+  freqTag: document.getElementById('freqTag'),
+  pulseTag: document.getElementById('pulseTag'),
+  status: document.getElementById('status'),
+  player: document.getElementById('player'),
+  playBtn: document.getElementById('playBtn'),
+  pauseBtn: document.getElementById('pauseBtn')
+};
+let currentMode = null;
+function matchMode(hour){
+  for(const m of MODES){
+    if(m.start < m.end){
+      if(hour >= m.start && hour < m.end) return m;
+    } else {
+      if(hour >= m.start || hour < m.end) return m;
+    }
+  }
+  return MODES[0];
+}
+function render(){
+  const now = new Date();
+  currentMode = matchMode(now.getHours());
+  els.timeNow.textContent = now.toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit',hour12:false});
+  els.modeNow.textContent = currentMode.title;
+  els.descNow.textContent = currentMode.desc;
+  els.fileTag.textContent = currentMode.file;
+  els.freqTag.textContent = currentMode.hz + ' Hz';
+  els.pulseTag.textContent = currentMode.bpm + ' BPM';
+  if(!els.player.src || !els.player.src.endsWith(currentMode.file)){
+    els.player.src = currentMode.file;
+    els.player.load();
+    els.status.textContent = '已載入：' + currentMode.file + '。現在請按「開始播放」。';
+  }
+}
+async function playAudio(){
+  try{
+    if(!els.player.src){
+      els.player.src = currentMode.file;
+      els.player.load();
+    }
+    await els.player.play();
+    els.status.textContent = '播放成功：' + currentMode.file;
+  }catch(err){
+    els.status.textContent = '播放失敗：' + err.message;
+    console.error(err);
+  }
+}
+function pauseAudio(){
+  els.player.pause();
+  els.status.textContent = '已暫停。';
+}
+els.playBtn.addEventListener('click', playAudio);
+els.pauseBtn.addEventListener('click', pauseAudio);
+els.player.addEventListener('error', ()=> {
+  const mediaError = els.player.error;
+  els.status.textContent = '音檔錯誤：' + (mediaError ? mediaError.code : 'unknown');
+});
+render();
+setInterval(render,15000);
+</script>
 </body>
 </html>
