@@ -1,16 +1,16 @@
-# Shichen Calm / 時辰安穩
+# 時辰安穩 / Shichen Calm — 完全覆蓋版
 
-A bilingual in-car calm music and meditation web app inspired by Feng Shui, Wu Xing, and Shichen rhythms.
+這版的唯一目標：
+先證明 **iPhone / iPad + GitHub Pages + 本地音檔** 可以正常播放。
 
-## Files
-- index.html
-- style.css
-- app.js
-- manifest.webmanifest
-- sw.js
-- 404.html
+## 與上一版不同
+- 拿掉 Web Audio 主播放
+- 改用 HTML `<audio>` + 本地 WAV 音檔
+- 保留：時辰切換 / 中英切換 / 冥想 / 90 秒拉回
+- 先不追求高級聲學，只追求核心功能成立
 
-## Notes
-- One-time purchase positioning: NT$99
-- Original generated soundscape using Web Audio API
-- No medical claims
+## 測試重點
+1. 網站打開正常
+2. 點「開始播放」真的有聲音
+3. 點「暫停播放」會停
+4. 切換模式會換音檔

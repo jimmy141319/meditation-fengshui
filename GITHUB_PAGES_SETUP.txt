@@ -1,15 +1,15 @@
-GitHub Pages 設定
-1. 把這個 ZIP 解壓後，裡面的全部檔案直接上傳到 repo 根目錄。
-2. GitHub repo -> Settings -> Pages
-3. Source: Deploy from a branch
-4. Branch: main
-5. Folder: /(root)
-6. Save
+【完全覆蓋上傳方式】
+1. 解壓 ZIP
+2. 把裡面的全部檔案與 audio/ 資料夾直接上傳到 GitHub repo 根目錄覆蓋
+3. GitHub Pages 保持：
+   - Source: Deploy from a branch
+   - Branch: main
+   - Folder: /(root)
 
-上線網址格式：
-https://你的帳號.github.io/你的repo名稱/
+【這版要先驗證】
+- iPhone / iPad Safari 裡，按『開始播放』是否真的有聲音
+- 若有，核心功能成立
+- 若沒有，再看是不是音量、檔案快取或路徑問題
 
-這版已修正：
-- icon 路徑改為根目錄
-- AudioContext resume 問題
-- iPhone / iPad Safari 播放邏輯
+【建議】
+先在 Safari 測，再測加入主畫面版本
